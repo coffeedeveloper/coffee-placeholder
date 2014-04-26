@@ -1,37 +1,62 @@
 ﻿(function ($) {
-	$.fn.placeholder = function () {
+	$.fn.placeholder = function (options) {
+    var defaults = {
+      fontColor: '#999',
+      attr: 'xxoo',
+      supportPlaceHolder: (function () {
+        var i = document.createElement('input');
+        return 'placeholder' in i;
+      })()
+    };
+
+    var opts = $.extend({}, defaults, options);
+
 		return this.each(function () {
-			var $this = $(this);
-			switch($this.attr('type').toLowerCase()){
+			var $elem = $(this);
+			switch($elem.attr('type').toLowerCase()){
 				case 'text':
-						$this.data({
-							'placeholder': $this.attr('placeholder'),
-							'color': $this.css('color')
-						}).val($this.attr('placeholder')).css('color', '#999')
-						$this.focus(function () {
-							if ($(this).val() == $(this).data('placeholder'))
-								$(this).val('')
-							$(this).css('color', $(this).data('color'))
-						}).blur(function () {
-							if (!$(this).val() || $(this).val() == $(this).data('placeholder')) {
-								$(this).val($(this).data('placeholder')).css('color', '#999')
-							}
-						})
+						$elem
+              .data({
+                'placeholder': $elem.attr(opts.attr),
+                'color': $elem.css('color')
+              })
+              .val($elem.attr(opts.attr))
+              .css('color', opts.fontColor);
+						$elem
+              .on({
+                'focus': function () {
+                  if ($.trim($elem.val()) == $elem.data('placeholder')){
+                    $elem.val('');
+                  }
+                  $elem.css('color', $elem.data('color'));
+                },
+                'blur': function () {
+                  var v = $.trim($elem.val());
+                  if (!v || v == $elem.data('placeholder')) {
+                    $elem
+                      .val($elem.data('placeholder'))
+                      .css('color', opts.fontColor);
+                  }
+                }
+              });
 					break;
 				case 'password':
-						var wrap = $('<label />')
+						var wrap = $('<label />'),
+                span = $('<span />');
 						wrap.css('position', 'relative')
-						var span = $('<span />')
-						span.css({
-							'position': 'absolute', 'left': $this.css('padding-left'),
-							'color': '#999', 'font-size': $this.css('font-size')
-						}).text($this.attr('placeholder')).attr('class', 'placeholder-text')
-						$this.wrap(wrap)
-						$this.after(span)
+						span
+              .css({
+                'position': 'absolute', 'left': $elem.css('padding-left'),
+                'color': '#999', 'font-size': $elem.css('font-size')
+              })
+              .text($elem.attr(opts.attr))
+              .attr('class', 'placeholder-text')
+						$elem.wrap(wrap)
+						$elem.after(span)
 						span.css({
 							'top' : '50%', 'margin-top':	span.height()/2 * -1
 						})
-						$this.focus(function () {
+						$elem.focus(function () {
 							$(this).parent().find('.placeholder-text').hide()
 						}).blur(function () {
 							if (!$(this).val()) 
