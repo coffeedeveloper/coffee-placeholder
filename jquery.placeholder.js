@@ -11,6 +11,10 @@
 
     var opts = $.extend({}, defaults, options);
 
+    if (opts.supportPlaceHolder) {
+      return;
+    }
+
 		return this.each(function () {
 			var $elem = $(this);
 			switch($elem.attr('type').toLowerCase()){
@@ -60,14 +64,15 @@
 							'top' : '50%', 'margin-top':	span.height()/2 * -1
 						});
 
-						$elem.on(
+						$elem.on({
               'focus': function () {
                 $elem.siblings('.placeholder-text').hide();
               },
               'blur': function () {
                 if (!$elem.val()) 
                   $elem.siblings('.placeholder-text').show();
-              });
+              }
+            });
 					break;
 			}
 		});
