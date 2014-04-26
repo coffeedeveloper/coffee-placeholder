@@ -2,7 +2,7 @@
 	$.fn.placeholder = function (options) {
     var defaults = {
       fontColor: '#999',
-      attr: 'xxoo',
+      attr: 'placeholder',
       supportPlaceHolder: (function () {
         var i = document.createElement('input');
         return 'placeholder' in i;
@@ -43,27 +43,33 @@
 				case 'password':
 						var wrap = $('<label />'),
                 span = $('<span />');
-						wrap.css('position', 'relative')
+
+						wrap.css('position', 'relative');
 						span
               .css({
                 'position': 'absolute', 'left': $elem.css('padding-left'),
-                'color': '#999', 'font-size': $elem.css('font-size')
+                'color': opts.fontColor, 'font-size': $elem.css('font-size')
               })
               .text($elem.attr(opts.attr))
-              .attr('class', 'placeholder-text')
-						$elem.wrap(wrap)
-						$elem.after(span)
+              .attr('class', 'placeholder-text');
+
+						$elem.wrap(wrap);
+						$elem.after(span);
+
 						span.css({
 							'top' : '50%', 'margin-top':	span.height()/2 * -1
-						})
-						$elem.focus(function () {
-							$(this).parent().find('.placeholder-text').hide()
-						}).blur(function () {
-							if (!$(this).val()) 
-								$(this).parent().find('.placeholder-text').show()
-						})
+						});
+
+						$elem.on(
+              'focus': function () {
+                $elem.siblings('.placeholder-text').hide();
+              },
+              'blur': function () {
+                if (!$elem.val()) 
+                  $elem.siblings('.placeholder-text').show();
+              });
 					break;
 			}
-		})
+		});
 	}
 })(jQuery)
