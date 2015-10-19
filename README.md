@@ -18,7 +18,7 @@ $('input[placeholder]').placeholder()
 ### TODO
 
 - `textarea`元素支持
-- **UMD**模块
+- ~~UMD模块~~
 
 ### 备注
 对于`<input type="password" />`的处理方式是在外层生成一个`<label />`容器，并在用一个`<span />`来定位提示文字。
