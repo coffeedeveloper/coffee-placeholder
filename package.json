@@ -1,0 +1,28 @@
+{
+  "name": "coffee-placeholder",
+  "version": "1.0.0",
+  "description": "ie7-8 placeholder shim.",
+  "main": "jquery.placeholder.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coffeedeveloper/coffee-placeholder.git"
+  },
+  "keywords": [
+    "jquery",
+    "placeholder"
+  ],
+  "author": "CoffeeDeveloper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coffeedeveloper/coffee-placeholder/issues"
+  },
+  "homepage": "https://github.com/coffeedeveloper/coffee-placeholder#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.2"
+  }
+}
