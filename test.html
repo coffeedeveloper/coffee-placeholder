@@ -7,26 +7,28 @@
   <script type="text/javascript" charset="utf-8" src="jquery.placeholder.js"> </script>
   <script type="text/javascript" charset="utf-8">
     $(function(){
-      //$('input[placeholder]').placeholder();
+      $('input').placeholder({
+        attr: 'data-placeholder'
+      });
     });
   </script>
 </head>
 <body>
-  <input type="text" placeholder="text placeholder" />
+  <input type="text" data-placeholder="text placeholder" />
   <br />
   <br />
-  <input type="email" placeholder="email placeholder" />
+  <input type="email" data-placeholder="email placeholder" />
   <br />
   <br />
-  <input type="number" placeholder="number placeholder" />
+  <input type="number" data-placeholder="number placeholder" />
   <br />
   <br />
-  <input type="tel" placeholder="tel placeholder" />
+  <input type="tel" data-placeholder="tel placeholder" />
   <br />
   <br />
-  <input type="url" placeholder="url placeholder" />
+  <input type="url" data-placeholder="url placeholder" />
   <br />
   <br />
-  <input type="password" placeholder="password placeholder">
+  <input type="password" data-placeholder="password placeholder">
 </body>
 </html>

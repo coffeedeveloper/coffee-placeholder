@@ -12,6 +12,8 @@
     var defaults = {
       fontColor: '#999',
       attr: 'placeholder',
+      valueHolder: false,
+      debug: false,
       supportPlaceHolder: (function() {
         var i = document.createElement('input');
         return 'placeholder' in i;
@@ -24,6 +26,57 @@
       return this;
     }
 
+    var wrapElem = function($elem) {
+      var $wrap = $('<div />').addClass('cf-placeholder-wrapper'),
+          $span = $('<span />').addClass('cf-placeholder-value');
+
+      $wrap.css({
+        position: 'relative',
+        display: 'inline-block',
+      });
+
+      $span
+        .css({
+          position: 'absolute',
+          left: $elem.css('padding-left'),
+          color: opts.fontColor,
+          fontSize: $elem.css('font-size'),
+          zIndex: -1,
+        })
+        .text($elem.attr(opts.attr));
+
+      $elem.css({
+        backgroundColor: 'transparent',
+      });
+
+      $elem.wrap($wrap);
+      $elem.after($span);
+
+      $span.css({
+        top: '50%', 'margin-top':  $span.height() / 2 * -1,
+      });
+
+      $elem.on({
+          keyup: function() {
+            if ($(this).val()) {
+              $span.hide();
+            }
+          },
+
+          blur: function() {
+            if (!$(this).val()) {
+              $span.show();
+            }
+          },
+        });
+
+      return {
+        $wrap: $wrap,
+        $span: $span,
+        $elem: $elem,
+      };
+    };
+
     return this.each(function() {
       var $elem = $(this);
       switch ($elem.attr('type').toLowerCase()){
@@ -32,63 +85,44 @@
         case 'tel':
         case 'number':
         case 'text':
-          $elem
+          if (opts.valueHolder) {
+            $elem
               .data({
                 placeholder: $elem.attr(opts.attr),
                 color: $elem.css('color'),
               })
               .val($elem.attr(opts.attr))
-              .css('color', opts.fontColor);
-          $elem
+              .css('color', opts.fontColor)
               .on({
                 focus: function() {
-                  if ($.trim($elem.val()) == $elem.data('placeholder')) {
-                    $elem.val('');
+                  var $this = $(this);
+                  var v = $.trim($this.val());
+
+                  if (v == $this.attr(opts.attr)) {
+                    $this.val('');
                   }
 
-                  $elem.css('color', $elem.data('color'));
+                  $this.css('color', $this.data('color'));
                 },
 
                 blur: function() {
-                  var v = $.trim($elem.val());
-                  if (!v || v == $elem.data('placeholder')) {
-                    $elem
-                      .val($elem.data('placeholder'))
+                  var $this = $(this);
+                  var v = $.trim($this.val());
+
+                  if (!v || v == $this.data('placeholder')) {
+                    $this
+                      .val($this.data('placeholder'))
                       .css('color', opts.fontColor);
                   }
                 },
               });
+          } else {
+            wrapElem($elem);
+          }
+
           break;
         case 'password':
-          var wrap = $('<label />'),
-              span = $('<span />');
-
-          wrap.css('position', 'relative');
-          span
-              .css({
-                position: 'absolute', left: $elem.css('padding-left'),
-                color: opts.fontColor, 'font-size': $elem.css('font-size'),
-              })
-              .text($elem.attr(opts.attr))
-              .attr('class', 'placeholder-text');
-
-          $elem.wrap(wrap);
-          $elem.after(span);
-
-          span.css({
-              top: '50%', 'margin-top':  span.height() / 2 * -1,
-            });
-
-          $elem.on({
-              focus: function() {
-                $elem.siblings('.placeholder-text').hide();
-              },
-
-              blur: function() {
-                if (!$elem.val())
-                  $elem.siblings('.placeholder-text').show();
-              },
-            });
+          wrapElem($elem);
           break;
       }
     });

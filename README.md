@@ -1,4 +1,4 @@
-## 让IE7-8的input元素支持HTML5的placeholder
+## 让IE7-9的input元素支持placeholder
 
 ### 使用方法
 

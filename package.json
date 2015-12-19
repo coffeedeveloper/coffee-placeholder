@@ -1,7 +1,7 @@
 {
   "name": "coffee-placeholder",
-  "version": "1.1.0",
-  "description": "ie7-8 placeholder shim.",
+  "version": "1.2.0",
+  "description": "ie7-9 placeholder shim.",
   "main": "jquery.placeholder.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
