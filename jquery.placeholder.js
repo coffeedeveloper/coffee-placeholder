@@ -1,4 +1,5 @@
 ;(function(factory) {
+
   if (typeof define === 'function' && define.amd) {
     define(['jquery'], factory);
   } else if (typeof module === 'object' && module.exports) {
@@ -6,6 +7,7 @@
   } else {
     factory(jQuery);
   }
+
 }(function($) {
 
   $.fn.placeholder = function(options) {
@@ -14,6 +16,14 @@
       attr: 'placeholder',
       valueHolder: false,
       debug: false,
+      styles: {
+        wrapper: null,
+        value: null,
+        elem: null,
+      },
+      hidden: $.noop,
+      show: $.noop,
+      callback: $.noop,
       supportPlaceHolder: (function() {
         var i = document.createElement('input');
         return 'placeholder' in i;
@@ -22,8 +32,10 @@
 
     var opts = $.extend({}, defaults, options);
 
-    if (opts.supportPlaceHolder) {
-      return this;
+    if (opts.debug != false) {
+      if (opts.supportPlaceHolder) {
+        return this;
+      }
     }
 
     var wrapElem = function($elem) {
@@ -56,25 +68,41 @@
         top: '50%', 'margin-top':  $span.height() / 2 * -1,
       });
 
+      if (opts.styles.wrapper) {
+        $wrap.css(opts.styles.wrapper);
+      }
+
+      if (opts.styles.value) {
+        $span.css(opts.styles.value);
+      }
+
+      if (opts.styles.elem) {
+        $elem.css(opts.styles.elem);
+      }
+
+      var $eles = {
+        $wrap: $wrap,
+        $span: $span,
+        $elem: $elem,
+      };
+
       $elem.on({
           keyup: function() {
             if ($(this).val()) {
               $span.hide();
+              opts.hidden($eles);
             }
           },
 
           blur: function() {
             if (!$(this).val()) {
               $span.show();
+              opts.show($eles);
             }
           },
         });
 
-      return {
-        $wrap: $wrap,
-        $span: $span,
-        $elem: $elem,
-      };
+      return $eles;
     };
 
     return this.each(function() {
