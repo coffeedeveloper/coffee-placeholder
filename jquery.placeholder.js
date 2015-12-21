@@ -32,10 +32,8 @@
 
     var opts = $.extend({}, defaults, options);
 
-    if (opts.debug != false) {
-      if (opts.supportPlaceHolder) {
-        return this;
-      }
+    if (opts.supportPlaceHolder) {
+      return this;
     }
 
     var wrapElem = function($elem) {
