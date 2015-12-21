@@ -80,6 +80,10 @@
         $elem.css(opts.styles.elem);
       }
 
+      $span.on('click', function() {
+        $elem.focus();
+      });
+
       var $eles = {
         $wrap: $wrap,
         $span: $span,

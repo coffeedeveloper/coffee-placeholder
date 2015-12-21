@@ -1,6 +1,6 @@
 {
   "name": "coffee-placeholder",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "ie7-9 placeholder shim.",
   "main": "jquery.placeholder.js",
   "scripts": {
