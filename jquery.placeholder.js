@@ -1,5 +1,4 @@
-;(function(factory) {
-
+(function(factory) {
   if (typeof define === 'function' && define.amd) {
     define(['jquery'], factory);
   } else if (typeof module === 'object' && module.exports) {
@@ -7,7 +6,6 @@
   } else {
     factory(jQuery);
   }
-
 }(function($) {
 
   $.fn.placeholder = function(options) {
@@ -19,7 +17,7 @@
       styles: {
         wrapper: null,
         value: null,
-        elem: null,
+        elem: null
       },
       hidden: $.noop,
       show: $.noop,
@@ -27,7 +25,7 @@
       supportPlaceHolder: (function() {
         var i = document.createElement('input');
         return 'placeholder' in i;
-      })(),
+      })()
     };
 
     var opts = $.extend({}, defaults, options);
@@ -42,7 +40,7 @@
 
       $wrap.css({
         position: 'relative',
-        display: 'inline-block',
+        display: 'inline-block'
       });
 
       $span
@@ -51,12 +49,12 @@
           left: $elem.css('padding-left'),
           color: opts.fontColor,
           fontSize: $elem.css('font-size'),
-          zIndex: -1,
+          zIndex: -1
         })
         .text($elem.attr(opts.attr));
 
       $elem.css({
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent'
       });
 
       $elem.wrap($wrap);
@@ -85,24 +83,24 @@
       var $eles = {
         $wrap: $wrap,
         $span: $span,
-        $elem: $elem,
+        $elem: $elem
       };
 
       $elem.on({
-          keyup: function() {
-            if ($(this).val()) {
-              $span.hide();
-              opts.hidden($eles);
-            }
-          },
+        keyup: function() {
+          if ($(this).val()) {
+            $span.hide();
+            opts.hidden($eles);
+          }
+        },
 
-          blur: function() {
-            if (!$(this).val()) {
-              $span.show();
-              opts.show($eles);
-            }
-          },
-        });
+        blur: function() {
+          if (!$(this).val()) {
+            $span.show();
+            opts.show($eles);
+          }
+        },
+      });
 
       return $eles;
     };
@@ -110,50 +108,50 @@
     return this.each(function() {
       var $elem = $(this);
       switch ($elem.attr('type').toLowerCase()){
-        case 'url':
-        case 'email':
-        case 'tel':
-        case 'number':
-        case 'text':
-          if (opts.valueHolder) {
-            $elem
-              .data({
-                placeholder: $elem.attr(opts.attr),
-                color: $elem.css('color'),
-              })
-              .val($elem.attr(opts.attr))
-              .css('color', opts.fontColor)
-              .on({
-                focus: function() {
-                  var $this = $(this);
-                  var v = $.trim($this.val());
+      case 'url':
+      case 'email':
+      case 'tel':
+      case 'number':
+      case 'text':
+        if (opts.valueHolder) {
+          $elem
+            .data({
+              placeholder: $elem.attr(opts.attr),
+              color: $elem.css('color')
+            })
+            .val($elem.attr(opts.attr))
+            .css('color', opts.fontColor)
+            .on({
+              focus: function() {
+                var $this = $(this);
+                var v = $.trim($this.val());
 
-                  if (v == $this.attr(opts.attr)) {
-                    $this.val('');
-                  }
+                if (v == $this.attr(opts.attr)) {
+                  $this.val('');
+                }
 
-                  $this.css('color', $this.data('color'));
-                },
+                $this.css('color', $this.data('color'));
+              },
 
-                blur: function() {
-                  var $this = $(this);
-                  var v = $.trim($this.val());
+              blur: function() {
+                var $this = $(this);
+                var v = $.trim($this.val());
 
-                  if (!v || v == $this.data('placeholder')) {
-                    $this
-                      .val($this.data('placeholder'))
-                      .css('color', opts.fontColor);
-                  }
-                },
-              });
-          } else {
-            wrapElem($elem);
-          }
-
-          break;
-        case 'password':
+                if (!v || v == $this.data('placeholder')) {
+                  $this
+                    .val($this.data('placeholder'))
+                    .css('color', opts.fontColor);
+                }
+              }
+            });
+        } else {
           wrapElem($elem);
-          break;
+        }
+
+        break;
+      case 'password':
+        wrapElem($elem);
+        break;
       }
     });
   };
