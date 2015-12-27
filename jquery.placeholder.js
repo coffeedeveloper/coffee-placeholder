@@ -35,8 +35,8 @@
     }
 
     var wrapElem = function($elem) {
-      var $wrap = $('<div />').addClass('cf-placeholder-wrapper'),
-          $span = $('<span />').addClass('cf-placeholder-value');
+      var $wrap = $('<div />').addClass('cf-placeholder-wrapper');
+      var $span = $('<span />').addClass('cf-placeholder-value');
 
       $wrap.css({
         position: 'relative',
@@ -61,7 +61,7 @@
       $elem.after($span);
 
       $span.css({
-        top: '50%', 'margin-top':  $span.height() / 2 * -1,
+        top: '50%', 'margin-top':  $span.height() / 2 * -1
       });
 
       if (opts.styles.wrapper) {
@@ -91,6 +91,9 @@
           if ($(this).val()) {
             $span.hide();
             opts.hidden($eles);
+          } else {
+            $span.show();
+            opts.show($eles);
           }
         },
 
@@ -100,6 +103,14 @@
             opts.show($eles);
           }
         },
+
+        'placeholder:show': function() {
+          $span.show();
+        },
+
+        'placeholder:hide': function() {
+          $span.hide();
+        }
       });
 
       return $eles;
